@@ -55,8 +55,8 @@ if button:
 # Get the details of ISS
 iss_latitude, iss_longitude, iss_people = get_iss_details()
 
-col1, col2 = st.columns(2)
-with col1:
+iss_tracker_col, astronauts_name_col = st.columns(2)
+with iss_tracker_col:
     with st.container():
         st.subheader('ISS Location:')
 
@@ -67,7 +67,7 @@ with col1:
         folium.Marker(location=[iss_latitude, iss_longitude], popup='ISS', tooltip='ISS', icon=icon).add_to(map)
         st_data = st_folium(map, use_container_width=True)
 
-with col2:
+with astronauts_name_col:
     with st.container():
         # Display the name of Astronauts in tabular form
         st.subheader('Name of Astronauts in ISS:')
