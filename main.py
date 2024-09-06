@@ -1,8 +1,7 @@
-import streamlit as st
-import requests
 import folium
 from streamlit_folium import st_folium
 import pandas as pd
+from util import *
 
 # Session state variables so that values persist across reruns
 if 'function_called' not in st.session_state:
@@ -13,24 +12,6 @@ if 'longitude' not in st.session_state:
     st.session_state.longitude = False
 if 'iss_people' not in st.session_state:
     st.session_state.iss_people = False
-
-
-# This function return the location (lang and lat) and number of astronauts in ISS
-def get_iss_details():
-    if not st.session_state.function_called:  # This condition will be True only when button is pressed
-        # Get the ISS current location and extract latitude and longitude from it
-        response = requests.get("http://api.open-notify.org/iss-now.json")
-        data = response.json()
-        st.session_state.latitude = float(data["iss_position"]["latitude"])
-        st.session_state.longitude = float(data["iss_position"]["longitude"])
-
-        # Get the name of Astronauts in ISS
-        response = requests.get("http://api.open-notify.org/astros.json")
-        data = response.json()
-        st.session_state.iss_people = [person['name'] for person in data['people'] if person['craft'] == 'ISS']
-        st.session_state.function_called = True
-
-    return st.session_state.latitude, st.session_state.longitude, st.session_state.iss_people
 
 
 # Initialize streamlit app
@@ -76,7 +57,5 @@ with astronauts_name_col:
         df_iss_people.index.name = 'Number'  # Update the index column name
         st.dataframe(df_iss_people, use_container_width=True)
 
-st.markdown("<div style='text-align: center; color: grey;'>Made with ❤️ by "
-            "<a href='zeeshan.altaf@92labs.ai'>Zeeshan</a>. Source code "
-            "<a href='https://github.com/mzeeshanaltaf/streamlit-iss-tracker'>here</a>.</div>",
-            unsafe_allow_html=True)
+# Display footer
+display_footer()
