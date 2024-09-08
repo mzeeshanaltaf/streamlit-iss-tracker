@@ -36,7 +36,7 @@ if button:
 # Get the details of ISS
 iss_latitude, iss_longitude, iss_people = get_iss_details()
 
-iss_tracker_col, astronauts_name_col = st.columns(2)
+iss_tracker_col, astronauts_name_col = st.columns([4, 1])
 with iss_tracker_col:
     with st.container():
         st.subheader('ISS Location:')
